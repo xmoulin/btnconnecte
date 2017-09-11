@@ -1,36 +1,22 @@
-FROM nodered/node-red-docker
-RUN npm install node-red-contrib-influxdb
-RUN npm install node-red-node-pushbullet
+FROM debian:jessie
 
-# test $FLOWS -> Retourne flow.json. Donc ne prend pas en compte la variale de app.yaml
-RUN echo $FLOWS
+ARG DOWNLOAD_URL
 
-# Copy the flow configuration file
-COPY my_flows.json /data/my_flows.json
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install libfontconfig curl ca-certificates && \
+    apt-get clean && \
+    curl ${DOWNLOAD_URL} > /tmp/grafana.deb && \
+    dpkg -i /tmp/grafana.deb && \
+    rm /tmp/grafana.deb && \
+    curl -L https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64 > /usr/sbin/gosu && \
+    chmod +x /usr/sbin/gosu && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
-# --- InfluxDB
-RUN set -ex && \
-    for key in \
-        05CE15085FC09D18E99EFB22684A14CF2582E0C5 ; \
-    do \
-        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
-        gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
-        gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
-    done
+VOLUME ["/var/lib/grafana", "/var/log/grafana", "/etc/grafana"]
 
-ENV INFLUXDB_VERSION 1.3.5
-RUN wget -q https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb.asc && \
-    wget -q https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
-    gpg --batch --verify influxdb_${INFLUXDB_VERSION}_amd64.deb.asc influxdb_${INFLUXDB_VERSION}_amd64.deb && \
-    dpkg -i influxdb_${INFLUXDB_VERSION}_amd64.deb && \
-    rm -f influxdb_${INFLUXDB_VERSION}_amd64.deb*
-COPY influxdb.conf /etc/influxdb/influxdb.conf
+EXPOSE 3000
 
-EXPOSE 8086
+COPY ./run.sh /run.sh
 
-VOLUME /var/lib/influxdb
-
-COPY entrypoint.sh /entrypoint.sh
-COPY init-influxdb.sh /init-influxdb.sh
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["influxd"]
+ENTRYPOINT ["/run.sh"]
