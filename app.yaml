@@ -1,2 +1,10 @@
 runtime: custom
 env: flex
+resources:
+  cpu: 1
+  memory_gb: 1
+  disk_size_gb: 2
+  volumes:
+  - name: n1-standard-1
+    volume_type: tmpfs
+    size_gb: 0.5
