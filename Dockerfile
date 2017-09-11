@@ -7,4 +7,3 @@ RUN echo $FLOWS
 
 # Copy the flow configuration file
 COPY my_flows.json /data/my_flows.json
-COPY my_flows2.json /data/my_flows2.json

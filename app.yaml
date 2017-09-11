@@ -9,4 +9,4 @@ resources:
     volume_type: tmpfs
     size_gb: 0.5
 env_variables:
-  FLOWS: 'my_flows2.json'
+  FLOWS: 'my_flows.json'
