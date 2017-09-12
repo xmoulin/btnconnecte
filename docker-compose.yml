@@ -2,8 +2,11 @@ nodered:
   build: .
   ports:
     - "1880:1880"
+  environment:
+    - FLOWS=my_flows.json
   links:
     - influxdb
+  
 influxdb:
   image: tutum/influxdb
   ports:
