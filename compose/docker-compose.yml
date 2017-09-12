@@ -1,8 +1,8 @@
 nodered:
   image: nodered/node-red-docker
-    ports:
+  ports:
     - "1880:1880"
-    links:
+  links:
     - influxdb
 influxdb:
   image: tutum/influxdb
