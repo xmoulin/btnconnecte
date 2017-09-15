@@ -6,7 +6,9 @@ nodered:
     - FLOWS=my_flows.json
   links:
     - influxdb
-  
+  volumes:
+    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
+
 influxdb:
   image: tutum/influxdb
   ports:
@@ -16,6 +18,8 @@ influxdb:
     - ADMIN_USER=root
     - INFLUXDB_INIT_PWD=root
     - PRE_CREATE_DB=indicateurs
+  volumes:
+    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
 
 grafana:
   image: grafana/grafana
@@ -23,3 +27,5 @@ grafana:
     - "3000:3000"
   links:
     - influxdb
+  volumes:
+    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
