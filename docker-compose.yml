@@ -7,7 +7,7 @@ nodered:
   links:
     - influxdb
   volumes:
-    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
 
 influxdb:
   image: tutum/influxdb
@@ -19,7 +19,7 @@ influxdb:
     - INFLUXDB_INIT_PWD=root
     - PRE_CREATE_DB=indicateurs
   volumes:
-    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
 
 grafana:
   image: grafana/grafana
@@ -28,4 +28,4 @@ grafana:
   links:
     - influxdb
   volumes:
-    - btnPersistVolume:/mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
