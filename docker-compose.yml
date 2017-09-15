@@ -3,11 +3,11 @@ nodered:
   ports:
     - "1880:1880"
   environment:
-    - FLOWS=my_flows.json
+    - FLOWS=/myData/my_flows.json
   links:
     - influxdb
   volumes:
-    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/myData:/myData
 
 influxdb:
   image: tutum/influxdb
@@ -19,7 +19,7 @@ influxdb:
     - INFLUXDB_INIT_PWD=root
     - PRE_CREATE_DB=indicateurs
   volumes:
-    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/myData:/myData
 
 grafana:
   image: grafana/grafana
@@ -28,4 +28,4 @@ grafana:
   links:
     - influxdb
   volumes:
-    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/data:/data
+    - /mnt/stateful_partition/home/xavier_moulin_soprasteria/btnconnecte/myData:/myData

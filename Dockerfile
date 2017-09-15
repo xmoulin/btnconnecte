@@ -8,4 +8,4 @@ RUN echo $FLOWS
 
 # Copy the flow configuration file
 #COPY my_flows.json /data/my_flows.json
-VOLUME ["/data"]
+VOLUME ["/myData"]
